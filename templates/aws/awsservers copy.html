@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+
+    <!-- <p>Current: {{currentcount}}, Exp: {{expcount}}, Total: {{total}}</p> -->
+    <!-- <form action="{% url 'mmaptsp2:search' %}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" value= "{{term}}" placeholder="Search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form> -->
+
+    <h3 class = "text-center mb-4 mt-4" >AWS Servers</h3>
+
+    {% if awsServers %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        <th class="align-middle text-center">Server ID</th>
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Database</th>
+                        <th class="align-middle text-center">Server Type</th>
+                        <th class="align-middle text-center">Region</th>                        
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for awsServer in awsServers %}
+                    <tr>
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        <td class="align-middle text-center">{{ awsServer.id }}</td>
+                        <td class="align-middle text-center">{{ awsServer.instanceName }}</td>                          
+                        <td class="align-middle text-center">{{ awsServer.database }}</td>                        
+                        <td class="align-middle text-center">{{ awsServer.serverType }}</td>
+                        <td class="align-middle text-center">{{ awsServer.region }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                                <a href="{% url 'aws:startreserver' awsServer.id %}"  class="btn btn-dark mt-2 align-middle">Start</a>
+                            <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+                                <a href="{% url 'aws:index' %}"  class="btn btn-dark mt-2 align-middle">Stop</a>
+                            </div>
+                        </td>
+                        <!-- <td>{{ mmap.mmap_branch }}</td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- <ul class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page=1" class="page-link" >&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">&raquo;Last</a></li>
+                {% endif %}
+
+
+            </ul> -->
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+{% endblock %}

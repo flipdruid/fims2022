@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+<hr class="solid">
+
+    <h3 class = "text-center mb-4 mt-4" >Cebu Servers</h3>
+
+    {% if UbuntuServersCebu %}
+        <div class="table-responsive">
+            <table class = "table table-dark table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        <!-- <th class="align-middle text-center">Server ID</th> -->
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Databases</th>
+                        <th class="align-middle text-center">Instance State</th>
+                        <th class="align-middle text-center">Instance Status</th>     
+                        <th class="align-middle text-center">System Status</th> 
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for key, values in UbuntuServersCebu.items %}
+                    <tr height="20px">
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        <!-- <td class="align-middle text-center">{{ awsUbuntu.id }}</td> -->
+                        <td class="align-middle">{{ values.instanceName }}</td>                          
+                        <td class="align-middle">{{ values.database }}</td>                        
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStates }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStatus }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuSystemStatus }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                                <a href="{% url 'aws:startreubuntuservers' key %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+                            {% if values.ubuntuInstanceStates == 'running'%}
+                                <a href="{% url 'aws:stopubuntuservers' key %}"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% else %}
+                                <a href="#"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% endif %}
+                            </div>
+                        </td>
+                        <!-- <td>{{ mmap.mmap_branch }}</td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+    <div class="table-responsive text-center mt-0">
+        <thead class="text-center">
+            <tr class="text-center">
+                <th class="align-middle text-center">
+                    <a href="{% url 'aws:startareaservers' 'Cebu' 'Start' %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} ">Start All Cebu</a>
+                </th>  
+                <th class="align-middle text-center">
+                    <a href="{% url 'aws:startareaservers' 'Cebu' 'Stop' %}"  class="btn btn-danger mt-2 align-middle {{values.disablestartRestartButton}} ">Stop All Cebu</a>
+                </th>       
+            </tr>     
+        </thead>
+
+    </div>
+
+    <hr class="solid">
+
+    <h3 class = "text-center mb-4 mt-4" >Negros Servers</h3>
+
+    {% if UbuntuServersNegros %}
+        <div class="table-responsive">
+            <table class = "table table-dark table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        <!-- <th class="align-middle text-center">Server ID</th> -->
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Databases</th>
+                        <th class="align-middle text-center">Instance State</th>
+                        <th class="align-middle text-center">Instance Status</th>     
+                        <th class="align-middle text-center">System Status</th> 
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for key, values in UbuntuServersNegros.items %}
+                    <tr height="20px">
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        <!-- <td class="align-middle text-center">{{ awsUbuntu.id }}</td> -->
+                        <td class="align-middle">{{ values.instanceName }}</td>                          
+                        <td class="align-middle">{{ values.database }}</td>                        
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStates }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStatus }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuSystemStatus }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                                <a href="{% url 'aws:startreubuntuservers' key %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+                            {% if values.ubuntuInstanceStates == 'running'%}
+                                <a href="{% url 'aws:stopubuntuservers' key %}"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% else %}
+                                <a href="#"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% endif %}
+                            </div>
+                        </td>
+                        <!-- <td>{{ mmap.mmap_branch }}</td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+
+    <div class="table-responsive text-center mt-0">
+        <thead class="text-center">
+            <tr class="text-center">
+                <th class="align-middle text-center">
+                    <a href="{% url 'aws:startareaservers' 'Negros' 'Start' %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} ">Start All Negros</a>
+                </th>  
+                <th class="align-middle text-center">
+                    <a href="{% url 'aws:startareaservers' 'Negros' 'Stop' %}"  class="btn btn-danger mt-2 align-middle {{values.disablestartRestartButton}} ">Stop All Negros</a>
+                </th>       
+            </tr>     
+        </thead>
+
+    </div>
+    <hr class="solid">
+
+    
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+
+    <h3 class = "text-center mb-4 mt-4" >Cancelled Mmap Application</h3>
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>DATE REG</th>
+                        <th>DATE EXP</th>
+                        <th>DATE ENCODED</th>
+                        <th>AGE</th>
+                        <th>SCCN</th>
+                        <th>BCODE</th>
+                        <th>CYCLE</th>
+                        <th>Branch</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for mmap in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ mmap.mmap_name }}</td>
+                        <td>{{ mmap.mmap_setupdate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_expired|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_encodedate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_age }}</td>
+                        <td>{{ mmap.mmapservicecentercontrolno }}</td>
+                        <td>{{ mmap.mmapbcode }}</td>
+                        <td>{{ mmap.client_cycle }}</td>
+                        <td>{{ mmap.mmap_branch }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+    <div class ="row border border-light shadow-sm rounded mt-2 mb-2" >
+        <div class="col-lg-5">
+        </div>
+        <div class="col-lg-2">
+            <div class="btn-group d-flex" role="group">        
+                
+                    <a href="{% url 'mmaptsp2:index' %}" class="btn btn-sm btn-success">Return</a>   
+            
+        </div>
+        <div class="col-lg-5">
+        </div>
+{% endblock %}

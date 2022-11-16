@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+
+    <!-- <p>Current: {{currentcount}}, Exp: {{expcount}}, Total: {{total}}</p> -->
+    <!-- <form action="{% url 'mmaptsp2:search' %}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" value= "{{term}}" placeholder="Search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form> -->
+
+    <h3 class = "text-center mb-4 mt-4" >Ubuntu Servers</h3>
+
+    {% if awsUbuntuInfo %}
+        <div class="table-responsive rounded">
+            <table class = "table table-dark table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        <!-- <th class="align-middle text-center">Server ID</th> -->
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Databases</th>
+                        <th class="align-middle text-center">Instance State</th>
+                        <th class="align-middle text-center">Instance Status</th>     
+                        <th class="align-middle text-center">System Status</th> 
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for key, values in awsUbuntuInfo.items %}
+                    <tr height="20px">
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        <!-- <td class="align-middle text-center">{{ awsUbuntu.id }}</td> -->
+                        <td class="align-middle">{{ values.instanceName }}</td>                          
+                        <td class="align-middle">{{ values.database }}</td>                        
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStates }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuInstanceStatus }}</td>
+                        <td class="align-middle text-center">{{ values.ubuntuSystemStatus }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                                <a href="{% url 'aws:startreserver' key %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}}"> {{values.startRestart}} </a>
+                            <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+                            {% if values.ubuntuInstanceStates == 'running'%}
+                                <a href="{% url 'aws:stopserver' key %}"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% else %}
+                                <a href="#"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% endif %}
+                            </div>
+                        </td>
+                        <!-- <td>{{ mmap.mmap_branch }}</td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive text-center" style="margin-top: -15px;">
+            <thead class="text-center">
+                <tr class="text-center">
+                    <th class="align-middle text-center">
+                        <a href="{% url 'aws:startareaservers' 'AllUbuntu' 'Start' %}"  class="btn btn-success mt-2 align-middle">Start All Ubuntu Servers</a>
+                    </th>  
+                    <th class="align-middle text-center">
+                        <a href="{% url 'aws:startareaservers' 'AllUbuntu' 'Stop' %}"  class="btn btn-danger mt-2 align-middle">Stop All Ubuntu Servers</a>
+                    </th>       
+                </tr>     
+            </thead>
+
+        </div>
+
+    {% endif %}
+   
+
+
+    <h3 class = "text-center mb-4 mt-4" >Windows Servers</h3>
+
+    {% if awsWindowsInfo %}
+        <div class="table-responsive rounded">
+            <table class = "table table-dark table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Instance States</th>
+                        <th class="align-middle text-center">Instance Status</th>
+                        <th class="align-middle text-center">System Status</th>
+                        <th class="align-middle text-center">RDP</th>                        
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for key, values in awsWindowsInfo.items %}
+                    <tr>
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        
+                        <td class="align-middle">{{ values.instanceName }}</td>                          
+                        <td class="align-middle text-center">{{ values.windowInstanceStates }}</td>                        
+                        <td class="align-middle text-center">{{ values.windowInstanceStatus  }}</td>
+                        <td class="align-middle text-center">{{ values.windowSystemStatus  }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4"> 
+                            {% if values.disableRDPButton == "disabled" %}
+                                <a href="#"  class="btn btn-success mt-2 align-middle {{values.disableRDPButton}} ">Remote Desktop</a>
+                            {% else %}
+                                <a href="{% url 'aws:instancerdp' key %}"  class="btn btn-success mt-2 align-middle {{values.disableRDPButton}} btn-rdp"  data-sid="{{values.rdpPass}}">Remote Desktop</a>
+                            {% endif %}
+                            </div> 
+                        </td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                            {% if values.disablestartRestartButton == "disabled" %}
+                                <a href="#"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            {% else %}
+                                <a href="{% url 'aws:startreserver' key %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            {% endif %}
+                            <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+                            {% if values.windowInstanceStates == 'running'%}
+                                <a href="{% url 'aws:stopserver' key %}"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% else %}
+                                <a href="#"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% endif %}
+                            </div>
+                        </td>
+                        <!-- <td>{{ mmap.mmap_branch }}</td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>    
+        <div class="table-responsive text-center mb-2" style="margin-top: -15px;">
+            <thead class="text-center">
+                <tr class="text-center"> 
+                    <th class="align-middle text-center">
+                        <a href="{% url 'aws:startareaservers' 'AllWindows' 'Stop' %}"  class="btn btn-danger mt-2 align-middle">Stop All Windows Servers</a>
+                    </th>       
+                </tr>     
+            </thead>
+
+        </div>
+    
+    {% endif %}
+    <script>
+        $(document).ready(function(){
+            $(".btn-rdp").on("click", function(){
+                let rdpPass = $(this).attr('data-sid');
+                var $rdp    = $("<input>");
+                $("body").append($rdp);
+                $rdp.val(rdpPass).select();
+                document.execCommand("copy");
+                $rdp.remove();
+            });            
+
+        });
+    </script>
+{% endblock %}

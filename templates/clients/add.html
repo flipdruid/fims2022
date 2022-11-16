@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Client {% endblock %}
+
+{% block content %} 
+{% if error_message %}
+    <p class = "alert alert-danger">
+        <strong>{{ error_message }}</strong>
+    </p>
+
+{% endif %}
+
+    <form action="{% url 'clients:processaddclient' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+<!-- row Start --->
+        <div class ="row">
+
+<!-- col-lg-6  Start --->
+            <div class="col-lg-6">
+
+                <div class = "row"> 
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                    
+                            <label>First Name</label>
+                            <input type="text" name="client_fname" id="client_fname" class="form-control" value="{{ client.client_fname }}" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Middle Name</label>
+                            <input type="text" name="client_mname" id="client_mname" class="form-control" value="{{ client.client_mname }}"  required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="client_lname" id="client_lname" class="form-control" value="{{ client.client_lname }}" required autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>     
+                <div class = "row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select name = "client_gender" id = "client_gender"  class="custom-select custom-select-sm" value="{{ client.client_gender }}" required>
+                                <option  selected>{{ client.client_gender }}</option>
+                            {% for gender in genders %}
+                                <option value="{{gender.genders}}">{{gender.genders}}</option>
+                            {% endfor %}
+                            <select>
+                        </div>  
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="client_email" id="client_email" class="form-control" value="{{ client.client_email }}" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Client Status</label>
+                            <select name = "client_status" id = "client_status"  class="custom-select custom-select-sm" value="{{ client.client_status }}"required>
+                                <option selected>{{ client.client_status }}</option>
+                            {% for client_stat in client_status %}
+                                <option value="{{client_stat.client_status}}">{{client_stat.client_status}}</option>
+                            {% endfor %}
+                            <select>
+                        </div>
+                    </div>
+                </div>       
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="client_address" id="client_address" class="form-control" value="{{ client.client_address }}" required autocomplete="off">
+                </div>
+                
+                <div class ="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="client_dob" id="client_dob" value="{{client.client_dob|date:'Y-m-d'}}" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Membership Type</label>
+                            <select name = "membership_type" id = "membership_type"  class="custom-select custom-select-sm" value="{{ client.client_membertype }}" required>
+                                <option selected>{{ client.client_membertype }}</option>
+                            {% for membertype in membertypes %}
+                                <option value="{{membertype.membertypes}}">{{membertype.membertypes}}</option>
+                            {% endfor %}
+                            <select>
+                        </div>   
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Marital Status</label>
+                            <select name = "client_cstatus" id = "client_cstatus" class="custom-select custom-select-sm" value="{{ client.client_cstatus }}">
+                                <option  selected>{{ client.client_cstatus }}</option>
+                                {% for status in cstatus %}
+                                <option value="{{status.civil_status}}">{{status.civil_status}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+            </div> <!-- col-lg-6 End --->
+
+<!-- col-lg-6 Start --->
+            <div class="col-lg-6">
+                
+
+                <div class="form-group">
+                    <label id="client_spouse_label" >Client Spouse</label>
+                    <input type="text" name="client_spouse" id="client_spouse" class="form-control" value="{{ client.client_spouse }}" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label id="client_children" >Client Children</label>
+                    <input type="text" name="client_children" id="client_children" class="form-control" value="{{ client.client_children }}" autocomplete="off">
+                </div>
+
+                 
+                <div class ="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Branch</label>                          
+                            
+                            {% if user.can_selectbranch %} 
+                                <select name = "client_branch" id = "client_branch"  class="custom-select custom-select-sm" value="{{ client.client_branch }}" required>                          
+                                    <option selected>{{ client.client_branch }}</option>
+                                    {% for branch in branches %}
+                                        <option value="{{branch.branch}}">{{branch.branch}}</option>
+                                    {% endfor %}
+                                </select> 
+                            {% else %}   
+                                <input type="text" name="client_branchhid" id="client_branchhid" class="form-control" value="{{ branches }}" autocomplete="off" readonly>
+                                <input type="hidden" name="client_branch" id="client_branch" class="form-control" value="{{ branches }}" autocomplete="off">
+                            {% endif %} 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label> Mobile Number</label>
+                            <input type="number" name="client_celnumber" id="client_celnumber" class="form-control" value="{{ client.client_celnumber }}" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label> Occupation</label>
+                            <input type="text" name="client_occupation" id="client_celnumber" class="form-control" value="{{ client.client_celnumber }}" autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class ="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Client Image</label>
+                            <input type="file" name="client_image" id="client_image" value="{{ client.client_image }}">
+                        </div>  
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Registration Date</label>
+                            <input type="date" name="reg_date" id="reg_date" value="{{ client.reg_date|date:'Y-m-d' }}" required>
+                        </div>
+                    </div>
+                </div>       
+                
+            </div> <!-- col-lg-6 End --->
+        </div> <!-- row Start --->
+
+        <div class = "text-center mb-4">
+            <button type="submit" class = "btn btn-success mt-2">Save</button>
+        <!-- <button type="cancel" class="btn btn-dark mt-2">Cancel</button> --->
+            <a href="{% url 'clients:index' %}" class="btn btn-dark mt-2">Cancel</a>
+        </div>
+   </form>
+{% endblock %}

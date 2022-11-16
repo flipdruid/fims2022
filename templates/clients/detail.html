@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ client.client_fname }} {{ client.client_lname }} {% endblock %}
+
+{% block content %}
+
+
+{% if error_message %}
+    <p class = "alert alert-danger"><strong>{{ error_message }}</strong></p>
+{% endif %}
+<div class="row mb-2">
+
+    <div class="col-lg-4 text-center">
+        <div class="mt-2"> 
+            <h3>{{ client.client_fname }} {{ client.client_mname }} {{ client.client_lname }}</h3>
+            <p class="text-muted">{{ client.client_email }}</p>
+            <p class="text-muted">{{ client.client_code }}</p>
+            <p class="text-muted">Client Status: {{ client.client_status }}</p>
+            <p class="text-muted">Client Number:{{ client.id }}</p>
+        </div>
+        
+        <div class="img-responsive align-center mb-2">
+            <img src="/clients/media/{{client.client_image}}" alt="clients_profile" class="img-rounded" width="300">
+        </div>
+
+        <div class="btn-group d-flex" role="group">        
+            {% if user.can_editclient %}
+                <a href="{% url 'clients:clientdisable' client.id %}" class="btn btn-sm btn-danger">Disable</a>
+                <a href="{% url 'clients:clientedit' client.id %}" class="btn btn-sm btn-info">Edit</a>
+            {% endif %}
+                <a href="{% url 'clients:index' %}" class="btn btn-sm btn-success">Return</a>        
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+        <h3 class="text-center">Client Information</h3>
+        <div class="row">
+            
+            <div class="col-lg-6 mt-3">
+                <p >Age: {{ clientAge }}</p>
+                <p >Address: {{ client.client_address }}</p>
+                <p >Date of Birth: {{ client.client_dob }}</p>
+                <p >Gender: {{ client.client_gender }}</p>
+                <p >Civil Status: {{ client.client_cstatus }}</p>
+                <p >Spouse: {{ client.client_spouse }}</p>
+                <p >Children: {{ client.client_children }}</p>     
+                <p >Member Type: {{ client.client_membertype }}</p>   
+                <p >Cycle(s): {{ client.client_cycle }}</p>               
+                
+            </div>
+            <div class="col-lg-6 mt-3">
+                <p >Mobile #: {{ client.client_celnumber }}</p>
+                <p >Branch: {{ client.client_branch }}</p>                
+                <p >Occupation: {{ client.client_occupation }}</p>
+
+                {% if cycle1up %} 
+
+                    
+                        <table class = "table table-bordered table-striped table-hover table-sm ">
+                            <thead>
+                                <tr>
+                                    <th>Cycle</th>
+                                    <th>Expired Date</th>
+                                    <th>Expired Status</th>
+                                    
+                                </tr>     
+                            </thead>  
+                    
+                            <tbody>  
+                    {% for mmapmaps in mmap %}                        
+                                <tr>
+                                    <td>{{ mmapmaps.client_cycle }}</td>                         
+                                    <td>{{ mmapmaps.mmap_expired }}</td> 
+                                    <td>{{ mmapmaps.expired_status }}</td>  
+                                                             
+                                    </td>                       
+                                </tr>    
+                    {% endfor %}                    
+                            </tbody>
+                        </table>
+                    
+                
+                {% else %}                 
+                    <table class = "table table-bordered table-striped table-hover table-sm ">
+                        <thead>
+                            <tr>
+                                <th>Cycle</th>
+                                <th>Expired Date</th>
+                                <th>Expired Status</th>
+                                
+                            </tr>     
+                        </thead>    
+                        <tbody>                        
+                            <tr>
+                                <td>{{ mmap.client_cycle }}</td>                         
+                                <td>{{ mmap.mmap_expired }}</td> 
+                                <td>{{ mmap.expired_status }}</td>                             
+                                </td>                       
+                            </tr>                        
+                        </tbody>
+                    </table>
+                {% endif %} 
+            <!-- </divclass> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

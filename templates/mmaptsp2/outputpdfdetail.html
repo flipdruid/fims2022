@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Output</title>
+    <!----margin: 2.5cm 1.5cm 3.5cm 1.5cm; -->
+    <style>
+        @page {
+            
+            size:"A4";
+            margin: 1.5cm .5cm 1.5cm .5cm;
+
+            @top-center {
+                content:"First Consolidated Cooperative Along Tañon Seaboards"
+                
+            }
+
+                        
+            @bottom-right{
+                content: "Page " counter(page) " of " counter(pages);
+            }
+        }
+    </style>
+
+<style type="text/css">
+    
+    td, th {
+      font-size: 11px;     
+      border: .1px solid black;
+      
+    }
+    
+    table{
+        margin: auto;
+    }
+
+    h4,h6 {
+        text-align: center;
+    }
+
+    .margtop {
+        margin-top: -30px;
+    }
+
+    .margtop2 {
+        margin-top: -20px;
+    }
+  </style>
+
+</head>
+<body>
+    <div class = "margtop"><h4> MMAP TSP 2 Detail </h4> </div>
+        <div class = "margtop2"><h6> {{today}} </h6> </div>
+        <div class = "margtop2"><h6> {{user}} </h6> </div>
+        <div class ="row border border-light shadow-sm rounded mt-2 mb-2" >
+
+            <!-- col-lg-4  Start --->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Member's Name:</label><label> {{mmap.mmap_name}}</label>
+                                <!-- <input type="text" name="mmap_name" id="mmap_name" class="form-control" value="{{mmap.mmap_name}}" readonly> -->
+                            </div>    
+                            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Branch:</label><label> {{mmap.mmap_branch}}</label>
+                                <!-- <input type="text" name="mmap_branch" id="mmap_branch" class="form-control" value="{{mmap.mmap_branch}}" readonly> -->
+                            </div>  
+            
+                            <div class="form-group">
+                                <div class = "row">
+                                    <div class="col-lg-4">
+                                        <label class="font-weight-bold">MMAP Type:</label><label> {{mmap.mmap_type}}</label>
+                                        <!-- <input type="text" name="mmap_type" id="mmap_type" class="form-control" value="{{mmap.mmap_type}}" readonly> -->
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <label class="font-weight-bold">Date Registered:</label><label> {{mmap.mmap_setupdate|date:'Y-m-d'}}</label><br/>
+                                        
+                                        <!-- <input type="date" name="mmap_setupdate" id="mmap_setupdate" class="form-control" value="{{mmap.mmap_setupdate|date:'Y-m-d'}}" readonly> -->
+                                    </div>                        
+                                </div>
+                            </div> 
+
+                            <div class="form-group">
+                                <div class = "row">
+                                    <div class="col-lg-4">
+                                        <label class="font-weight-bold">Date Expired:</label><label> {{mmap.mmap_expired|date:'Y-m-d'}}</label>
+                                        <!-- <input type="text" name="mmap_type" id="mmap_type" class="form-control" value="{{mmap.mmap_type}}" readonly> -->
+                                    </div>
+                                                   
+                                </div>
+                            </div> 
+                            
+                                  
+            
+            
+                        </div> <!-- col-lg-4 End --->
+                            
+            <!-- col-lg-4 Start --->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <div class = "row">
+                                    <div class="col-lg-6">
+                                        <label class="font-weight-bold">Client Code:</label> <label> {{mmap.client_code}}</label>
+                                        <!-- <input type="text" name="clientid" id="clientid" class="form-control" value="{{mmap.client_code}}" readonly> -->
+                                        <!--
+                                            <input type="hidden" name="hidclientid" id="hidclientid" class="form-control" value="{{mmap.clientid}}">
+                                         -->
+                                    </div>   
+                                    <div class="col-lg-6">
+                                        <label class="font-weight-bold">Sex:</label><label> {{mmap.mmap_sex}}</label>
+                                        <!-- <input type="text" name="mmap_sex" id="mmap_sex" class="form-control" value="{{mmap.mmap_sex}}" readonly > -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Date of Birth:</label><label> {{mmap.mmap_dob|date:'Y-m-d'}}</label>
+                                <!-- <input type="date" name="mmap_dob" id="mmap_dob" class="form-control" value="{{mmap.mmap_dob|date:'Y-m-d'}}"  readonly> -->
+                            </div>
+            
+                            <div class ="row mt-3 mb-2">
+                                <div class="col-lg-9">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Recruited by:</label><label> {{mmap.recuited_by}}</label>
+                                        <!-- <input type="text" name="recuited_by" id="recuited_by" class="form-control" value="{{mmap.recuited_by}}" required> -->
+                                    </div> 
+                                </div>   
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Cycle:</label><label> {{ mmap.client_cycle }}</label>
+                                        <!-- <input type="text" name="client_cycle" id="client_cycle" class="form-control" value="{{ mmap.client_cycle }}" readonly > -->
+                                    </div>   
+                                </div>
+                            </div>                            
+                        
+            
+                        </div> <!-- col-lg-4 End --->
+            
+            <!-- col-lg-4 Start --->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Age:</label><label> {{mmap.mmap_age}}</label>
+                                <!-- <input type="text" name="mmap_age" id="mmap_age" class="form-control" value="{{mmap.mmap_age}}" readonly> -->
+                            </div>   
+                            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Address:</label><label> {{mmap.mmap_address}}</label>
+                                <!-- <input type="text" name="mmap_address" id="mmap_address" class="form-control" value="{{mmap.mmap_address}}" readonly> -->
+                            </div>
+            
+                            <div class ="row mt-3 mb-2"> 
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Front Form: </label>
+                                        <!-- <input type="file" name="mmap_form_fimage" id="mmap_form_fimage" value="{{ mmap.mmap_form_fimage }}"/> -->
+                                        <label><a href="/mmaptsp2/media/{{ mmap.mmap_form_fimage }}" target="_blank">View Image</a>
+                                        <label>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Back Form: </label>
+                                        <!-- <input type="file" name="mmap_form_bimage" id="mmap_form_bimage" value="{{ mmap.mmap_form_bimage }}" />   -->
+                                        <label><a href="/mmaptsp2/media/{{ mmap.mmap_form_bimage }}" target="_blank">View Image</a>
+                                            <label>                      
+                                    </div>   
+                                </div>             
+                            </div> 
+            
+            
+                        </div> <!-- col-lg-4 End --->
+            
+                    </div> <!-- row End --->
+            
+                    <div class ="row border border-light shadow-sm rounded mt-3 mb-2"> <!-- row Benificiary Start --->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Name of Dependents/Beneficiaries:</label><br/>
+                                <label>{{beneficiary.ben1}} | DOB:{{beneficiary.ben1_dob|date:'Y-m-d'}} | {{beneficiary.ben1_rel}}</label><br/>
+                                <label>{{beneficiary.ben2}} | DOB:{{beneficiary.ben2_dob|date:'Y-m-d'}} | {{beneficiary.ben2_rel}}</label><br/>
+                                <label>{{beneficiary.ben3}} | DOB:{{beneficiary.ben3_dob|date:'Y-m-d'}} | {{beneficiary.ben3_rel}}</label><br/>
+                                <!-- <input type="text" name="ben1" id="ben1" class="form-control" value="{{beneficiary.ben1}}"  readonly> -->
+                            </div>             
+                        </div>
+                            
+                        </div>
+                    </div> <!-- row Benificiary End --->
+            
+            
+                    <div class ="row border border-light shadow-sm rounded mt-3 mb-2"> <!-- row Start --->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Processed by:</label><label> {{mmap.processed_by}} | {{mmap.processed_des}} | {{mmap.processed_date|date:'Y-m-d'}}</label>
+                                <!-- <input type="text" name="processed_by" id="processed_by" value="{{mmap.processed_by}}" class="form-control" readonly> -->
+                            </div> 
+            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Checked by:</label><label> {{mmap.checked_by}} | {{mmap.checked_des}} | {{mmap.checked_date|date:'Y-m-d'}}</label>
+                                <!-- <input type="text" name="checked_by" id="checked_by" value="{{mmap.checked_by}}" class="form-control" readonly> -->
+                            </div> 
+            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Approved by:</label><label> {{mmap.approved_by}} | {{mmap.approved_des}} | {{mmap.approved_date|date:'Y-m-d'}}</label>
+                                <!-- <input type="text" name="approved_by" id="approved_by" value="{{mmap.approved_by}}" class="form-control" readonly> -->
+                            </div> 
+            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Branch Control Number:</label><label> {{mmap.mmapservicecentercontrolno}}</label>
+                                <!-- <input type="text" name="branch_control_number" id="branch_control_number" value="{{mmap.mmapservicecentercontrolno}}" class="form-control" readonly> -->
+                            </div>
+            
+                        </div>
+                                               
+                    </div> <!-- row End --->
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+
+    <p>Current: {{currentcount}}, Exp: {{expcount}}, Total: {{total}}</p>
+    <form action="{% url 'mmaptsp2:search' %}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" value= "{{term}}" placeholder="Search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <h3 class = "text-center mb-4 mt-4" >Registered Members</h3>
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover table-sm">
+                <thead class = "thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>DATE REG</th>
+                        <th>DATE EXP</th>
+                        <th>DATE ENCODED</th>
+                        <th>AGE</th>
+                        <th>SCCN</th>
+                        <th>BCODE</th>
+                        <th>CYCLE</th>
+                        <th>Branch</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for mmap in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'mmaptsp2:mmapdetail' mmap.id %}">
+                                {{ mmap.mmap_name }}
+                            </a>
+                        </td>
+                        <td>{{ mmap.mmap_setupdate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_expired|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_encodedate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_age }}</td>
+                        <td>{{ mmap.mmapservicecentercontrolno }}</td>
+                        <td>{{ mmap.mmapbcode }}</td>
+                        <td>{{ mmap.client_cycle }}</td>
+                        <td>{{ mmap.mmap_branch }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page=1" class="page-link" >&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">&raquo;Last</a></li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+{% endblock %}

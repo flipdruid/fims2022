@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+    {{ user }}
+
+    {{ datenow }} <br/>
+    {{ days30 }} <br/>
+    <form action="{% url 'users:search' %}" method="GET">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <h1 class = "text-center mb-4 mt-4" >Users List</h1>
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email Name</th>
+                        <th>Profile Image</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for user in page_obj %}
+                    <tr>
+                        <td>{{ user.user_fname }}</td>
+                        <td>{{ user.user_lname }}</td>
+                        <td>{{ user.user_email }}</td>
+                        <td class = "text-center">
+                            <a href="{% url 'users:detail' user.id %}">
+                                <img src = "media/{{ user.user_image }}" alt="userimage" width="35" class="rounded-circle"></td>
+                            </a>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page=1" class="page-link" >&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">&raquo;Last</a></li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+
+    
+    {% if mmap %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>ID</th>
+                        <th>Profile Image</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for client in mmap %}
+                    <tr>
+                        <td>{{ client.client_fname }}</td>
+                        <td>{{ client.client_mname }}</td>
+                        <td>{{ client.client_lname }}</td>
+                        <td>{{ client.client_email }}</td>
+                        <td>{{ client.id }}</td>
+                        <td class = "text-center">
+                            <a href="{% url 'mmaptsp2:addmmap' client.id %}">
+                                <img src = "media/{{ client.client_image }}" alt="clientimage" width="35" class="rounded-circle"></td>
+                            </a>            
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+    
+    {% endif %}
+    
+{% endblock %}

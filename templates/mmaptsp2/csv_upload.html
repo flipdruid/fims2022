@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            <strong>{{message|safe}}</strong>
+        </div>
+    {% endfor %}
+{% else %}
+{{order}}
+<form  method="POST" enctype="multipart/form-data" action="{% url 'mmaptsp2:csv_upload' %}" >
+    {% csrf_token %}
+    <label>Upload file</label>
+    <input type="file" name="file">
+    <p>Accept only CSV files</p>
+    <button type="submit">Upload</button>
+
+</form>
+{% endif %}
+
+{% endblock %}

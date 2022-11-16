@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+    <h3 class = "text-center" >Windows Servers</h3>
+
+    {% if windowsServers %}
+        <div class="table-responsive">
+            <table class = "table table-dark table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle text-center">#</th>
+                        
+                        <th class="align-middle text-center">Server Name</th>                        
+                        <th class="align-middle text-center">Instance States</th>
+                        <th class="align-middle text-center">Instance Status</th>
+                        <th class="align-middle text-center">System Status</th>
+                        <th class="align-middle text-center">RDP</th>   
+                        <!-- <th class="align-middle text-center">RDP Pass</th>                           -->
+                        <th class="align-middle text-center">Actions</th>
+                        
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for key, values in windowsServers.items %}
+                    <tr>
+                        <td class="align-middle text-center">{{ forloop.counter }}</td>                        
+                        
+                        <td class="align-middle">{{ values.instanceName }}</td>                          
+                        <td class="align-middle text-center">{{ values.windowsInstanceStates }}</td>                        
+                        <td class="align-middle text-center">{{ values.windowsInstanceStatus  }}</td>
+                        <td class="align-middle text-center">{{ values.windowsSystemStatus  }}</td>
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4"> 
+                            {% if values.disableRDPButton == "disabled" %}
+                                <a href="#"  class="btn btn-success mt-2 align-middle {{values.disableRDPButton}} ">Remote Desktop</a>
+                            {% else %}
+                                <a href="{% url 'aws:instancerdp' key %}"  class="btn btn-success mt-2 align-middle {{values.disableRDPButton}} btn-rdp" data-sid="{{values.rdpPass}}">Remote Desktop</a>
+                            {% endif %}
+                            </div> 
+                        </td>
+                        
+                        <td class="align-middle text-center">
+                            <div class = "text-center mb-4">
+                            {% if values.disablestartRestartButton == "disabled" %}
+                                <a href="#"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            {% else %}
+                                <a href="{% url 'aws:startrewindowsservers' key %}"  class="btn btn-success mt-2 align-middle {{values.disablestartRestartButton}} "> {{values.startRestart}} </a>
+                            {% endif %}
+                            
+                            {% if values.windowsInstanceStates == 'running'%}
+                                <a href="{% url 'aws:stopwindowsservers' key %}"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% else %}
+                                <a href="#"  class="btn btn-danger mt-2 align-middle {{ values.disableStopButton }}">Stop</a>
+                            {% endif %}
+                            </div>
+                        </td>
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="table-responsive text-center mb-2" style = "margin-top: -10px;">
+            <thead class="text-center">
+                <tr class="text-center">
+                    <th class="align-middle text-center">
+                        <a href="{% url 'aws:ssallwindowsservers' 1 %}"  class="btn btn-success  align-middle" >Start All Windows Servers</a>
+                    </th>  
+                    <th class="align-middle text-center">
+                        <a href="{% url 'aws:ssallwindowsservers' 0 %}"  class="btn btn-danger align-middle">Stop All Windows Servers</a>
+                    </th>       
+                </tr>     
+            </thead>
+    
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+
+    <script>
+        $(document).ready(function(){
+            $(".btn-rdp").on("click", function(){
+                let rdpPass = $(this).attr('data-sid');
+                var $rdp    = $("<input>");
+                $("body").append($rdp);
+                $rdp.val(rdpPass).select();
+                document.execCommand("copy");
+                $rdp.remove();
+            });            
+
+        });
+    </script>
+{% endblock %}

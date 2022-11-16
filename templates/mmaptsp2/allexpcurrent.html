@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %} MMAP List {% endblock %}
+
+{% block content %} 
+
+    <h4 class = "text-center mb-4 mt-4" name='stats' id = 'stats' >MMAP {{status}} List</h4>
+    <!-- <input type="hidden" class="form-control mr-2" name="stats" id = "stats"  value= "{{status}}"> -->
+    
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Date Registered</th>
+                        <th>Date Expired</th>
+                        <th>Encode Date</th>
+                        <th>Age</th>
+                        <th>Client Code</th>
+                        <th>SCCN</th>
+                        <th>Cycle</th>
+                        <th>Branch</th>
+                        <th>Premium</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for mmap in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                                {% if mmap.expired_status == True %}
+                                    <td><a href="{% url 'mmaptsp2:mmapexpdetail' mmap.id %}">
+                                        {{ mmap.mmap_name }}
+                                    </a>
+                                {% else %}
+                                    <td><a href="{% url 'mmaptsp2:mmapdetail' mmap.id %}">
+                                            {{ mmap.mmap_name }}
+                                        </a>
+                                {% endif %}
+                        </td>                        
+                        <td>{{ mmap.mmap_setupdate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_expired|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_encodedate|date:'Y-m-d' }}</td>
+                        <td>{{ mmap.mmap_age }}</td>
+                        <td>{{ mmap.client_code }}</td>
+                        <td>{{ mmap.mmapservicecentercontrolno }}</td>
+                        <td>{{ mmap.client_cycle }}</td>
+                        <td>{{ mmap.mmap_branch }}</td>
+                        <td>{{ mmap.mmap_premium }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page=1" class="page-link" >&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">&raquo;Last</a></li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+        <div class = "row mb-4">
+            <div class="col-lg-2">
+                <form action="{% url 'mmaptsp2:allexpcurrentexportdata' 'csv' %}" method="GET">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control mr-2" name="stats" id = "stats"  value= "{{status}}">
+                    <div class="input-group">
+                        <input type="hidden" class="form-control mr-2" name="expdatestart" id = "expdatestart"  value= "{{datestart|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="expdateend" id = "expdateend" value= "{{dateend|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="filtertype" id = "filtertype" value= "{{filtertype}}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">Export CSV</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2">
+                <form action="{% url 'mmaptsp2:allexpcurrentexportdata' 'xls' %}" method="GET">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control mr-2" name="stats" id = "stats"  value= "{{status}}">
+                    <div class="input-group">
+                        <input type="hidden" class="form-control mr-2" name="expdatestart" id = "expdatestart"  value= "{{datestart|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="expdateend" id = "expdateend" value= "{{dateend|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="filtertype" id = "filtertype" value= "{{filtertype}}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">Export Excel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2">
+                <form action="{% url 'mmaptsp2:allexpcurrentexportdata' 'pdf' %}" method="GET">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control mr-2" name="stats" id = "stats"  value= "{{status}}">
+                    <div class="input-group">
+                        <input type="hidden" class="form-control mr-2" name="expdatestart" id = "expdatestart"  value= "{{datestart|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="expdateend" id = "expdateend" value= "{{dateend|date:'Y-m-d'}}">
+                        <input type="hidden" class="form-control mr-2" name="filtertype" id = "filtertype" value= "{{filtertype}}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">Export PDF</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+{% endblock %}

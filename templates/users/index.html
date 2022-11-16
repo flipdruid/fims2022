@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %} Users List {% endblock %}
+
+{% block content %} 
+   
+    <p class="text-muted">Expires from {{ datenow }} to {{ days30 }}</p>
+  
+
+    <form action="{% url 'users:search' %}" method="GET">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <h1 class = "text-center mb-4 mt-4" >Users List</h1>
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>                        
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Profile Image</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for user in page_obj %}
+                        
+                    <tr>                        
+                        <td><a href="{% url 'users:detail' user.id %}">{{ user.user_fname }}</a></td>
+                        <td><a href="{% url 'users:detail' user.id %}">{{ user.user_lname }}</a></td>
+                        <td>{{ user.user_email }}</td>
+                        <td class = "text-center">
+                            <a href="{% url 'users:detail' user.id %}">
+                                <img src = "media/{{ user.user_image }}" alt="userimage" width="35" class="rounded-circle"></td>
+                            </a>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page=1" class="page-link" >&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">&raquo;Last</a></li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+    
+    {% else %}
+    <p>No records available</p>
+
+    {% endif %}
+
+    
+    {% if mmap %}
+        <div class="table-responsive">
+            <table class = "table table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>Registered Date</th>
+                        <th>Expiration Date</th>
+                        <th>Client ID</th>
+                        <th>Application ID</th>
+                        <th>Profile Image</th>
+                    </tr>     
+                </thead>
+
+                <tbody>
+                    {% for client in mmap %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'mmaptsp2:mmapdetail' client.id %}">
+                            {{ client.mmap_name }}
+                        </a></td>
+                        <td>{{ client.mmap_branch }}</td>
+                        <td>{{ client.mmap_setupdate }}</td>
+                        <td>{{ client.mmap_expired }}</td>                        
+                        <td class = "text-center"><a href="{% url 'clients:clientdetail' client.clientid %}">
+                            {{ client.clientid }}
+                        </a></td>
+                        <td class = "text-center"><a href="{% url 'mmaptsp2:mmapdetail' client.id %}">
+                            {{ client.id }}
+                        </a></td>
+                        <td class = "text-center">
+                            
+                                <img src = "media/{{ client.clientimg }}" alt="clientimage" height="35" class="rounded-circle">
+                            
+                        </td>   
+                                     
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+        {{cliid}}
+    {% else %}
+    <p>No records available</p>
+    
+    {% endif %}
+    
+{% endblock %}

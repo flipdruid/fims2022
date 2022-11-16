@@ -1,0 +1,123 @@
+{% load static %}
+
+        <div class="jumbotron" style="margin-bottom: 0px;">
+            <h1>FCCT Insurance Monitoring System</h1>
+            <p>Let's make things easier</p>
+        </div>
+        <!--  fixed-top  -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
+
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        <div class="collapse navbar-collapse" id ="collapse_target">
+        <a class="navbar-brand"><img src="{% static 'image/kmslogo200x200.png' %}" style="width: 50px; height: 50px;"></a>
+           <a href ="/">
+                <span class="navbar-text">FIMSystem</span> 
+            </a>
+        <ul class="navbar-nav">
+            <!-- Users APP START -->
+            {% if user.can_accessusers or user.is_staff%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        Users <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <a href="/users" class="dropdown-item">Users List</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/users/add" class="dropdown-item">Add User</a>
+                    </div>
+                </li>
+            {% endif %}
+            <!-- Users APP END -->
+
+            
+            <!-- Clients APP START -->
+            {% if user.can_accessclients or user.is_staff%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        Clients<span class="caret"></span></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                            <a href="/clients" class="dropdown-item">Clients List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/clients/addclient" class="dropdown-item">Add Client</a>
+                            <a href="/clients/cancelledclient" class="dropdown-item">Cancelled Client</a>
+                        </div>
+                </li>
+            {% endif %}
+            <!-- Clients APP END -->
+
+
+            <!-- MMAP-TSP APP START -->
+            {% if user.can_accessmmaptsp2 or user.is_staff%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        MMAP-TSP<span class="caret"></span></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                            <a href="/mmaptsp2" class="dropdown-item">MMAP-TSP List</a>                        
+                            <a href="/mmaptsp2/loadclient" class="dropdown-item">Add New/Renew</a>
+                            <a href="/mmaptsp2/mmapclaim" class="dropdown-item">Claim</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/mmaptsp2/filterby" class="dropdown-item">Filter Report</a>
+                            <a href="{% url 'mmaptsp2:allexpcurrent' 'exp' %}" class="dropdown-item">Expired</a>
+                            <a href="{% url 'mmaptsp2:allexpcurrent' 'current' %}" class="dropdown-item">Current</a>
+                            <a href="{% url 'mmaptsp2:newrenewstatus' %}" class="dropdown-item">Unrenew</a>
+                            <a href="/mmaptsp2/cancelledmmap" class="dropdown-item">Cancelled MMAP</a>   
+                            
+                        </div>
+                </li>
+            {% endif %}
+            <!-- MMAP-TSP APP END -->
+
+
+            <!-- AWS APP START -->
+            {% if user.can_accessaws or user.is_staff%}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    AWS<span class="caret"></span></a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <a href="/aws/ubuntuservers" class="dropdown-item">Ubuntu Servers</a>
+                        <a href="/aws/windowsservers" class="dropdown-item">Windows Servers</a>
+                        <a href="/aws" class="dropdown-item">All Servers</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/aws/addaccount" class="dropdown-item">Add Accounts</a>
+                        <a href="/aws/awsaccounts" class="dropdown-item">AWS Accounts</a>
+                    </div>
+            </li>
+            {% endif %}            
+            <!-- AWS APP END -->
+
+
+            <!-- AWS APP START -->
+            {% if user.can_accessevents or user.is_staff%}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    Events<span class="caret"></span></a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <a href="/event" class="dropdown-item">E-Voting</a>
+                        
+                    </div>
+            </li>
+            {% endif %}            
+            <!-- AWS APP END -->
+
+            {% if user.is_authenticated %}
+                <a href="/users/logout" class="nav-link">Logout</a>
+            {% else %}
+                <a href="/users/login" class="nav-link">Login</a>
+            {% endif %}
+        </ul>
+        
+        </div>
+    </nav>
+
+    <div class = "row mb-4 pt-1">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 text-center">
+            <div class="badge badge-primary text-wrap text-uppercase " style="width: 6rem;">
+               <div>{{ user }}</div> <br/> <div id ='todate'></div>
+            </div>
+        </div> 
+        <div class="col-lg-2"></div>
+    </div>

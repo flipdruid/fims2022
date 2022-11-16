@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} Evoting System{% endblock %}
+
+{% block content %} 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+
+            <h4 class="text-center alert alert-info">Event Setup</h4>
+                <form action="" method="">
+                    {% csrf_token %}
+                        <!-- <input type="hidden" name="empid" id="empid" /> -->
+                    {{ form.as_p }}
+                    <input type = 'button' id = "btn-save-event" class = "btn btn-success" value="Submit" id="btnsave">
+                </form>
+
+        </div>
+        <div class="col-sm-4"></div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#btn-save-event').on("click", function(){
+            $.ajax({
+            url: "{% url 'edit' %}",
+            method:'POST',
+            data: mydata,
+            success: function(data) {
+            // console.log(data);
+            
+        }
+    });
+        });
+                   
+    });
+</script>
+
+{% endblock %}

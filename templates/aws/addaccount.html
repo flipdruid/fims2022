@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %} Add AWS Account {% endblock %}
+
+{% block content %} 
+
+{% if error_message %}
+    <p class = "alert alert-danger">
+        <strong>{{ error_message }}</strong>
+    </p>
+
+{% endif %}
+
+<div class = "row"> 
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4 ">
+        <form action="{% url 'aws:processaddaccount' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Account Name</label>
+                <select name = "accountName" id = "accountName"  class="custom-select custom-select-sm" value="{{ accountName }}" required>
+                    <option></option>
+                {% for awsaccount in awsaccounts %}
+                    <option value="{{awsaccount.accountName}}">{{awsaccount.accountName}}</option>
+                {% endfor %}
+                <select>
+            </div>    
+            
+            <div class="form-group">
+                <label>Instance Name</label>
+                <input type="text" name="instanceName" id="instanceName" class="form-control" value="{{ instanceName }}"required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label>Instance ID</label>
+                <input type="text" name="instanceID" id="instanceID" class="form-control" value="{{ instanceID }}"required autocomplete="off">
+            </div>
+
+            <!-- <div class="form-group">
+                <label>Region</label>
+                <input type="text" name="region" id="region" class="form-control" value="{{ region }}"required>
+            </div> -->
+
+            <div class="form-group">
+                <label>Server IP</label>
+                <input type="text" name="serverIP" id="serverIP" class="form-control" value="{{ serverIP }}" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label>Databases</label>
+                <input type="text" name="database" id="database" class="form-control" value="{{ database }}" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label>Server Type</label>
+                <input type="text" name="serverType" id="serverType" class="form-control" value="{{ serverType }}"required autocomplete="off">
+            </div>
+
+        
+            <div class="btn-group d-flex mb-2" role="group">  
+                <button type="submit" class = "btn btn-success mt-2">Save</button>  
+                <!-- <button type="cancel" class = "btn btn-info mt-2">Cancel</button>  -->
+                <a href="{% url 'aws:index' %}" class="btn btn-danger mt-2">Cancel</a>
+            </div>
+            
+
+        </form>
+    </div>
+    <div class="col-lg-4"></div>
+
+</div>
+{% endblock %}

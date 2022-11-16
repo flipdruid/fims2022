@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block title %} MMAP Detail {% endblock %}
+
+{% block content %} 
+
+
+
+{% if error_message %}
+    <p class = "alert alert-danger">
+        <strong>{{ error_message }}</strong>
+    </p>
+
+{% endif %}
+
+<!-- row Start --->
+        <div class ="row border border-light shadow-sm rounded mt-2 mb-2" >
+
+<!-- col-lg-4  Start --->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Member's Name</label>
+                    <input type="text" name="mmap_name" id="mmap_name" class="form-control" value="{{mmap.mmap_name}}" readonly>
+                </div>    
+                
+                <div class="form-group">
+                    <label>Branch</label>
+                    <input type="text" name="mmap_branch" id="mmap_branch" class="form-control" value="{{mmap.mmap_branch}}" readonly>
+                </div>  
+
+                <div class="form-group">
+                    <div class = "row">
+                        <div class="col-lg-4">
+                            <label>MMAP Type</label>
+                            <input type="text" name="mmap_type" id="mmap_type" class="form-control" value="{{mmap.mmap_type}}" readonly>
+                        </div>
+                        <div class="col-lg-8">
+                            <label>Date Registered</label>
+                            <input type="date" name="mmap_setupdate" id="mmap_setupdate" class="form-control" value="{{mmap.mmap_setupdate|date:'Y-m-d'}}" readonly>
+                        </div>                        
+                    </div>
+                </div> 
+                      
+
+
+            </div> <!-- col-lg-4 End --->
+                
+<!-- col-lg-4 Start --->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <div class = "row">
+                        <div class="col-lg-6">
+                            <label>Client Code</label>
+                            <input type="text" name="clientid" id="clientid" class="form-control" value="{{mmap.client_code}}" readonly>
+                            <!--
+                                <input type="hidden" name="hidclientid" id="hidclientid" class="form-control" value="{{mmap.clientid}}">
+                             -->
+                        </div>   
+                        <div class="col-lg-6">
+                            <label>Sex</label>
+                            <input type="text" name="mmap_sex" id="mmap_sex" class="form-control" value="{{mmap.mmap_sex}}" readonly >
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="mmap_dob" id="mmap_dob" class="form-control" value="{{mmap.mmap_dob|date:'Y-m-d' }}"  readonly>
+                </div>
+
+                <div class ="row mt-3 mb-2">
+                    <div class="col-lg-9">
+                        <div class="form-group">
+                            <label>Recruited by</label>
+                            <input type="text" name="recuited_by" id="recuited_by" class="form-control" value="{{mmap.recuited_by}}" readonly>
+                        </div> 
+                    </div>   
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Cycle</label>
+                            <input type="text" class="form-control" value="{{ mmap.client_cycle }}" readonly >
+                            <input type="hidden" name="client_cycle" id="client_cycle" class="form-control" value="{{ mmap.client_cycle }}" readonly >
+                        </div>   
+                    </div>
+                </div>                            
+            
+
+            </div> <!-- col-lg-4 End --->
+
+<!-- col-lg-4 Start --->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="text" name="mmap_age" id="mmap_age" class="form-control" value="{{mmap.mmap_age}}" readonly>
+                </div>   
+                
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="mmap_address" id="mmap_address" class="form-control" value="{{mmap.mmap_address}}" readonly>
+                </div>
+
+                <div class ="row mt-3 mb-2"> 
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Front Form</label>
+                            <!-- <input type="file" name="mmap_form_fimage" id="mmap_form_fimage" value="{{ mmap.mmap_form_fimage }}"/> -->
+                            <label><a href="/mmaptsp2/media/{{ mmap.mmap_form_fimage }}" target="_blank">View Image</a>
+                            <label>
+                        </div> 
+                        <div class="form-group">
+                            <label>Back Form</label>
+                            <!-- <input type="file" name="mmap_form_bimage" id="mmap_form_bimage" value="{{ mmap.mmap_form_bimage }}" />   -->
+                            <label><a href="/mmaptsp2/media/{{ mmap.mmap_form_bimage }}" target="_blank">View Image</a>
+                                <label>                      
+                        </div>   
+                    </div>             
+                </div> 
+
+
+            </div> <!-- col-lg-4 End --->
+
+        </div> <!-- row End --->
+
+        <div class ="row border border-light shadow-sm rounded mt-3 mb-2"> <!-- row Benificiary Start --->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Name of Dependents/Beneficiaries</label>
+                    <input type="text" name="ben1" id="ben1" class="form-control" value="{{beneficiary.ben1}}"  readonly>
+                </div> 
+
+                <div class="form-group">
+                    <input type="text" name="ben2" id="ben2" class="form-control"  value="{{beneficiary.ben2}}" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <input type="text" name="ben3" id="ben3" class="form-control"  value="{{beneficiary.ben3}}"  readonly>
+                </div> 
+
+            </div>
+            <div class="col-lg-4">            
+
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="ben1_dob" id="ben1_dob" class="form-control"   value="{{beneficiary.ben1_dob|date:'Y-m-d'}}" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <input type="date" name="ben2_dob" id="ben2_dob" class="form-control"  value="{{beneficiary.ben2_dob|date:'Y-m-d'}}" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <input type="date" name="ben3_dob" id="ben3_dob" class="form-control"  value="{{beneficiary.ben3_dob|date:'Y-m-d'}}" readonly>
+                </div> 
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Relationship</label>
+                    <input type="text" name="ben1_rel" id="ben1_rel" class="form-control" value="{{beneficiary.ben1_rel}}" readonly >
+                </div>
+                <div class="form-group">
+                    <input type="text" name="ben2_rel" id="ben2_rel" class="form-control" value="{{beneficiary.ben2_rel}}" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="ben3_rel" id="ben3_rel" class="form-control" value="{{beneficiary.ben3_rel}}" readonly>
+                </div>
+                
+            </div>
+        </div> <!-- row Benificiary End --->
+
+
+        <div class ="row border border-light shadow-sm rounded mt-3 mb-2"> <!-- row Start --->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Processed by</label>
+                    <input type="text" name="processed_by" id="processed_by" value="{{mmap.processed_by}}" class="form-control" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <label>Checked by</label>
+                    <input type="text" name="checked_by" id="checked_by" value="{{mmap.checked_by}}" class="form-control" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <label>Approved by</label>
+                    <input type="text" name="approved_by" id="approved_by" value="{{mmap.approved_by}}" class="form-control" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <label>Branch Control Number</label>
+                    <input type="text" name="branch_control_number" id="branch_control_number" value="{{mmap.mmapservicecentercontrolno}}" class="form-control" readonly>
+                </div>
+
+            </div>
+            <div class="col-lg-4">            
+
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" name="processed_des" id="processed_des" value="{{mmap.processed_des}}" class="form-control" readonly> 
+                </div> 
+
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" name="checked_des" id="checked_des" value="{{mmap.checked_des}}" class="form-control" readonly>
+                </div> 
+
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" name="approved_des" id="approved_des" value="{{mmap.approved_des}}" class="form-control" readonly>
+                </div> 
+                <div class="form-group">
+                    <label>Date|Time Encoded</label>
+                    <input type="text" name="encodedate}" id="encodedate}" value="{{mmap.mmap_encodedate}}" class="form-control" readonly>
+                </div> 
+                <div class="btn-group d-flex" role="group">        
+                    {% if user.can_editclient %}
+                        <a href="{% url 'mmaptsp2:mmapcancel' mmap.id %}" class="btn btn-sm btn-danger" style="width:25%;">Cancel</a>
+                        <a href="{% url 'mmaptsp2:mmapedit' mmap.id %}" class="btn btn-sm btn-info" style="width:25%;" >Edit</a>
+                    {% endif %}
+                        <a href="{% url 'mmaptsp2:index' %}" class="btn btn-sm btn-success" style="width:25%;">Return</a>   
+                        <a href="{% url 'mmaptsp2:mmapdetailpdf' mmap.id %}" class="btn btn-sm btn-info" style="width:25%;">Export PDF</a>        
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="processed_date" id="processed_date" value="{{mmap.processed_date|date:'Y-m-d'}}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="checked_date" id="checked_date" value="{{mmap.checked_date|date:'Y-m-d'}}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="approved_date" id="approved_date" value="{{mmap.approved_date|date:'Y-m-d'}}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Date Expired</label>
+                    <input type="date" name="mmap_expired" id="mmap_expired" value="{{mmap.mmap_expired|date:'Y-m-d'}}" class="form-control" readonly>
+                </div> 
+            </div>
+        </div> <!-- row End --->
+
+
+    
+        
+
+
+
+   
+{% endblock %}

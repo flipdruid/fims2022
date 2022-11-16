@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Evoting System{% endblock %}
+
+{% block content %} 
+<div class="container-fluid">
+    <!-- <h1 class="text-center alert alert-danger">{{event.event_name}}</h1> -->
+    <h1 class="text-center alert alert-primary">{{event.event_name}} | {{event.id}}</h1>
+    <div class="row">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-2">
+            <!-- <input type="button" value="Add Position" class="btn btn-primary " style="width: 150px;" data-sid="{{eventList.id}}"> -->
+        </div><div class="col-lg-5"></div>
+    </div>
+
+</div>  
+
+<div class="pop-pos">    
+    <button type="button" id = "addpos" class="button btn-primary "> Add Position </button>
+</div>
+
+<tbody id='avail-pos'>    
+
+</tbody>
+<div class="popup">
+    <div class="popup-content">
+        <img src="/users/media/profile_pic/close-icon100x100.png" class = "close"  alt="Close">
+        <h3 class="text-center pop-title">Add Position</h3>
+        <input type="text" class="txtpos" placeholder="Position">
+        <input type="text" class="txtvacant" placeholder="Vacant">
+        <button type="button" id="btnsave" class="button">Save</button>
+    </div>
+
+</div>
+<script> 
+    $(document).ready(function(){
+        let NumTrue=true;
+        let NewPosition=true;
+
+        $("#addpos").on("click", function(){
+            NewPosition=true; 
+            $(".popup").css({display: 'flex'});
+
+        });
+        $(".close").on("click", function(){
+            $(".popup").css('display', 'none');
+            $(".txtvacant").val("");
+            $(".txtpos").val("");
+        })
+
+        $("#btnsave").on("click", function(){
+            if ($.trim($(".txtpos").val())=="" ){
+                alert("Please input position")
+            }
+
+            else if ($.trim($(".txtvacant").val())=="" ){
+                alert("Please input numeric value in vacant position")
+            }
+
+            else if  ($.isNumeric($.trim($(".txtvacant").val()))==false){
+                alert("Please input numeric value in vacant position")
+            }
+
+            let sid = "{{event.id}}";
+            let PosName = $.trim($(".txtpos").val());
+            let PosVac  = $.trim($(".txtvacant").val());
+
+            $(".popup").css({display: 'none'});
+
+            posData = {
+                eventId:sid,
+                PosName:PosName,
+                PosVac:PosVac,
+                NewPosition:NewPosition
+            }
+
+            $.ajax({
+
+                url: "{% url 'event:saveditpos' %}",
+                    method:'POST',
+                    data: posData,
+                    success: function(data) {
+                        console.log(data);
+                        pos_data = data.pos_data
+                    }
+            })
+               
+        });
+    });
+</script>
+
+{% endblock %}
